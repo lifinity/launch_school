@@ -1,0 +1,1 @@
+print('foo' == 'Foo')   # returns False, capitalization matters

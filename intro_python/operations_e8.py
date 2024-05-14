@@ -1,0 +1,1 @@
+print('12' < '9')   # returns True because strings, so '1' < '9'
