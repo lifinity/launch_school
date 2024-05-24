@@ -63,7 +63,10 @@ while True:
         case '3': # '3' represents multiplication
             output = number1 * number2
         case '4': # '4' represents division
-            output = number1 / number2
+            try:
+                output = number1 / number2
+            except ZeroDivisionError:
+                output = MESSAGES['zero_division']
 
     # Print the result to the terminal.
     print(MESSAGES['result'] + str(output))

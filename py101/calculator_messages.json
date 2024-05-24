@@ -6,6 +6,7 @@
       "invalid_num" : "Hmm... that doesn't look like a valid number.",
       "get_operation" : "What operation would you like to perform\n1) Add 2) Subtract 3) Multiply 4) Divide",
       "invalid_operation" : "You must choose 1, 2, 3, or 4.",
+      "zero_division": "You can't divide by zero.",
       "result" : "The result is: ",
       "get_continue" : "Would you like to perform another calculation? ",
       "invalid_continue" : "You must answer yes or no."
@@ -17,6 +18,7 @@
       "invalid_num": "Hmm... ese no parece un número válido.",
       "get_operation": "¿Qué operación le gustaría realizar\n1) Sumar 2) Restar 3) Multiplicar 4) Dividir",
       "invalid_operation": "Debes elegir 1, 2, 3 o 4.",
+      "zero_division": "No puedes dividir por cero.",
       "result": "El resultado es: ",
       "get_continue": "¿Le gustaría realizar otro cálculo?",
       "invalid_continue": "Debes responder sí o no."
@@ -27,6 +29,7 @@
       "get_num2" : "Quel est le deuxième numéro ?",
       "invalid_num" : "Hmm... ça ne ressemble pas à un numéro valide.",
       "get_operation" : "Quelle opération souhaitez-vous effectuer\n1) Ajouter 2) Soustraire 3) Multiplier 4) Diviser",
+      "zero_division": "Vous ne pouvez pas diviser par zéro.",
       "invalid_operation" : "Vous devez choisir 1, 2, 3 ou 4.",
       "result" : "Le résultat est : ",
       "get_continue" : "Voulez-vous effectuer un autre calcul ?",
@@ -39,6 +42,7 @@
       "invalid_num": "Hmm... das sieht nicht nach einer gültigen Zahl aus.",
       "get_operation": "Welche Operation möchten Sie ausführen\n1) Addieren 2) Subtrahieren 3) Multiplizieren 4) Dividieren",
       "invalid_operation": "Sie müssen 1, 2, 3 oder 4 wählen.",
+      "zero_division": "Sie können nicht durch Null dividieren.",
       "result": "Das Ergebnis ist:",
       "get_continue": "Möchten Sie eine weitere Berechnung durchführen?",
       "invalid_continue": "Sie müssen mit Ja oder Nein antworten."
@@ -50,6 +54,7 @@
       "invalid_num" : "嗯...这看起来不像一个有效的数字。",
       "get_operation" : "您要执行什么运算\n1) 加 2) 减 3) 乘 4) 除",
       "invalid_operation" : "您必须选择 1、2、3 或 4。",
+      "zero_division": "你不能除以零。",
       "result" : "结果是：",
       "get_continue" : "您想再进行一次计算吗？",
       "invalid_continue" : "您必须回答是或否。"
@@ -61,6 +66,7 @@
       "invalid_num" : "うーん...有効な数値ではないようです。",
       "get_operation" : "どのような操作を実行しますか\n1) 加算 2) 減算 3) 乗算 4) 除算",
       "invalid_operation" : "1、2、3、または 4 を選択する必要があります。",
+      "zero_division": "ゼロで割ることはできません。",
       "result" : "結果は次のとおりです: ",
       "get_continue" : "別の計算を実行しますか? ",
       "invalid_continue" : "はいまたはいいえで答える必要があります。"
