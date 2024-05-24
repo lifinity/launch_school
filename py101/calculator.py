@@ -9,7 +9,7 @@ def prompt(message):
 
 def invalid_number(number_str):
     try:
-        int(number_str)
+        float(number_str)
     except ValueError:
         return True
 
@@ -42,6 +42,10 @@ while True:
         prompt(MESSAGES['invalid_num'])
         number2 = input()
 
+    # Cast to float for upcoming operations
+    number1 = float(number1)
+    number2 = float(number2)
+
     # Ask the user for an operation to perform.
     prompt(MESSAGES['get_operation'])
     operation = input()
@@ -53,13 +57,13 @@ while True:
     # Perform the operation on the two numbers.
     match operation:
         case '1': # '1' represents addition
-            output = int(number1) + int(number2)
+            output = number1 + number2
         case '2': # '2' represents subtraction
-            output = int(number1) - int(number2)
+            output = number1 - number2
         case '3': # '3' represents multiplication
-            output= int(number1) * int(number2)
+            output = number1 * number2
         case '4': # '4' represents division
-            output = int(number1) / int(number2)
+            output = number1 / number2
 
     # Print the result to the terminal.
     print(MESSAGES['result'] + str(output))
