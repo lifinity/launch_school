@@ -1,7 +1,10 @@
-# 1. Asking the user for another calculation
-# 2. Extracting messages in the program to a configuration file.
-# 3. Internationalization
-# 4. Allowing Floating-Point Numbers
+import json
+
+# Open JSON file for reading
+with open('calculator_messages.json', 'r') as file:
+    data = json.load(file)
+
+MESSAGES = data.get('en')
 
 def prompt(message):
     print(f"==> {message}")
@@ -14,32 +17,31 @@ def invalid_number(number_str):
 
     return False
 
-prompt('Welcome to Calculator!')
+prompt(MESSAGES['welcome'])
 
 while True:
     # Ask the user for the first number.
-    prompt("What's the first number?")
+    prompt(MESSAGES['get_num1'])
     number1 = input()
 
     while invalid_number(number1):
-        prompt("Hmm... that doesn't look like a valid number.")
+        prompt(MESSAGES['invalid_num'])
         number1 = input()
 
     # Ask the user for the second number.
-    prompt("What's the second number?")
+    prompt(MESSAGES['get_num2'])
     number2 = input()
 
     while invalid_number(number2):
-        prompt("Hmm... that doesn't look like a valid number.")
+        prompt(MESSAGES['invalid_num'])
         number2 = input()
 
     # Ask the user for an operation to perform.
-    prompt("""What operation would you like to perform
-    1) Add 2) Subtract 3) Multiply 4) Divide""")
+    prompt(MESSAGES['get_operation'])
     operation = input()
 
     while operation not in ["1", "2", "3", "4"]:
-        prompt('You must choose 1, 2, 3, or 4')
+        prompt(MESSAGES['invalid_operation'])
         operation = input()
 
     # Perform the operation on the two numbers.
@@ -54,14 +56,14 @@ while True:
             output = int(number1) / int(number2)
 
     # Print the result to the terminal.
-    print(f"The result is: {output}")
+    print(MESSAGES['result'] + str(output))
 
     # Ask user if they want to keep going
-    prompt("Would you like to perform another calculation, y/n?")
+    prompt(MESSAGES['get_continue'] + 'Y/N?')
     keep_going = input().casefold()
 
     while keep_going not in ["y", "yes", "n", "no"]:
-        prompt("You must answer yes or no.")
+        prompt(MESSAGES['invalid_continue'])
         keep_going = input().casefold()
 
     if keep_going in ["n", "no"]:
