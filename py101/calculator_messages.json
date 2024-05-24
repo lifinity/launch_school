@@ -9,5 +9,60 @@
       "result" : "The result is: ",
       "get_continue" : "Would you like to perform another calculation? ",
       "invalid_continue" : "You must answer yes or no."
+  },
+  "es" : {
+      "welcome": "¡Bienvenido a la Calculadora!",
+      "get_num1": "¿Cuál es el primer número?",
+      "get_num2" : "¿Cuál es el segundo número?",
+      "invalid_num": "Hmm... ese no parece un número válido.",
+      "get_operation": "¿Qué operación le gustaría realizar\n1) Sumar 2) Restar 3) Multiplicar 4) Dividir",
+      "invalid_operation": "Debes elegir 1, 2, 3 o 4.",
+      "result": "El resultado es: ",
+      "get_continue": "¿Le gustaría realizar otro cálculo?",
+      "invalid_continue": "Debes responder sí o no."
+  },
+  "fr" : {
+      "welcome" : "Bienvenue sur la Calculatrice !",
+      "get_num1" : "Quel est le premier numéro ?",
+      "get_num2" : "Quel est le deuxième numéro ?",
+      "invalid_num" : "Hmm... ça ne ressemble pas à un numéro valide.",
+      "get_operation" : "Quelle opération souhaitez-vous effectuer\n1) Ajouter 2) Soustraire 3) Multiplier 4) Diviser",
+      "invalid_operation" : "Vous devez choisir 1, 2, 3 ou 4.",
+      "result" : "Le résultat est : ",
+      "get_continue" : "Voulez-vous effectuer un autre calcul ?",
+      "invalid_continue" : "Vous devez répondre par oui ou par non."
+  },
+  "de" : {
+      "welcome": "Willkommen beim Rechner!",
+      "get_num1": "Was ist die erste Zahl?",
+      "get_num2": "Wie lautet die zweite Zahl?",
+      "invalid_num": "Hmm... das sieht nicht nach einer gültigen Zahl aus.",
+      "get_operation": "Welche Operation möchten Sie ausführen\n1) Addieren 2) Subtrahieren 3) Multiplizieren 4) Dividieren",
+      "invalid_operation": "Sie müssen 1, 2, 3 oder 4 wählen.",
+      "result": "Das Ergebnis ist:",
+      "get_continue": "Möchten Sie eine weitere Berechnung durchführen?",
+      "invalid_continue": "Sie müssen mit Ja oder Nein antworten."
+  },
+  "cn" : {
+      "welcome" : "欢迎使用计算器！",
+      "get_num1" : "第一个数字是多少？",
+      "get_num2" : "第二个数字是多少？",
+      "invalid_num" : "嗯...这看起来不像一个有效的数字。",
+      "get_operation" : "您要执行什么运算\n1) 加 2) 减 3) 乘 4) 除",
+      "invalid_operation" : "您必须选择 1、2、3 或 4。",
+      "result" : "结果是：",
+      "get_continue" : "您想再进行一次计算吗？",
+      "invalid_continue" : "您必须回答是或否。"
+  },
+  "jp" : {
+      "welcome" : "電卓へようこそ!",
+      "get_num1" : "最初の数字は何ですか?",
+      "get_num2" : "2 番目の数字は何ですか?",
+      "invalid_num" : "うーん...有効な数値ではないようです。",
+      "get_operation" : "どのような操作を実行しますか\n1) 加算 2) 減算 3) 乗算 4) 除算",
+      "invalid_operation" : "1、2、3、または 4 を選択する必要があります。",
+      "result" : "結果は次のとおりです: ",
+      "get_continue" : "別の計算を実行しますか? ",
+      "invalid_continue" : "はいまたはいいえで答える必要があります。"
   }
 }

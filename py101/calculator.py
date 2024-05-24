@@ -4,8 +4,6 @@ import json
 with open('calculator_messages.json', 'r') as file:
     data = json.load(file)
 
-MESSAGES = data.get('en')
-
 def prompt(message):
     print(f"==> {message}")
 
@@ -16,6 +14,14 @@ def invalid_number(number_str):
         return True
 
     return False
+
+prompt("Select a language. Default is English (en) if improper input.\n \
+Options are: en, es, fr, de, cn, jp")
+lang_code = input().casefold()
+
+LANGUAGE = lang_code if lang_code in \
+  ['en', 'es', 'fr', 'de', 'cn', 'jp'] else 'en'
+MESSAGES = data.get(LANGUAGE)
 
 prompt(MESSAGES['welcome'])
 
