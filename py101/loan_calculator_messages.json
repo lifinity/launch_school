@@ -1,0 +1,11 @@
+{
+  "welcome" : "Monthly Loan Payment Calculator (compounding monthly)",
+  "get_loan_amount" : "To start, how much did you borrow? (0 to 1,000,000,000)",
+  "get_annual_percent" : "What's your annual percentage rate (APR)? (0 to 100, 5.7% would be 5.7)",
+  "get_loan_duration" : "How many months is your loan duration, in numbers? (1 to 1200)",
+  "invalid_number" : "That's not a useable number... please try again.",
+  "invalid_duration": "Loan duration needs to be a whole number betwewen 1 and 1200",
+  "loan_payment" : "Your monthly loan payment is:",
+  "get_continue" : "Run another calculation,",
+  "invalid_continue" : "Please answer with one of the following:"
+}
