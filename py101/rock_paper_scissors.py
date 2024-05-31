@@ -5,23 +5,27 @@ from os import system
 ROCK = 'rock'
 PAPER = 'paper'
 SCISSORS = 'scissors'
+LIZARD = 'lizard'
+SPOCK = 'spock'
 
-CHOICES = [ROCK, PAPER, SCISSORS]
+CHOICES = [ROCK, PAPER, SCISSORS, LIZARD, SPOCK]
 NUM_CHOICES = [str(num) for num in range(1, len(CHOICES)+1)]
-CHAR_CHOICES = [choice[0] for choice in CHOICES]
+CHAR_CHOICES = [(choice[0] if choice[0] != 's'
+                 else choice[:2]) for choice in CHOICES]
 
 VALID_CHOICES = dict(zip(CHOICES, CHOICES)) \
               | dict(zip(NUM_CHOICES, CHOICES)) \
               | dict(zip(CHAR_CHOICES, CHOICES)) \
 
 FORMATTED_CHOICE_STRS = [f'{num}) {choice.capitalize()}' for num, choice \
-                     in zip(NUM_CHOICES, CHOICES)]
+                        in zip(NUM_CHOICES, CHOICES)]
 
-P1_WIN_CONDITIONS = [
-                    (ROCK, SCISSORS),
-                    (PAPER, ROCK),
-                    (SCISSORS, PAPER),
-                    ]
+WIN_CONDITIONS = {
+                  ROCK: [SCISSORS, LIZARD],
+                  PAPER: [ROCK, SPOCK],
+                  SCISSORS: [PAPER, LIZARD],
+                  SPOCK: [ROCK, SCISSORS]
+                 }
 
 Y = 'y'
 N = 'n'
@@ -40,25 +44,25 @@ def display_intro():
 def display_winner(p1_choice, p2_choice):
     if p1_choice == p2_choice:
         winner_str = "It's a tie."
-    elif (p1_choice.casefold(), p2_choice.casefold()) in P1_WIN_CONDITIONS:
+    elif p2_choice in WIN_CONDITIONS[p1_choice]:
         winner_str = "You win!"
     else:
         winner_str = "Computer wins..."
-    display_prompt(f'You chose {p1_choice}, ' \
-                 + f'computer chose {p2_choice}. {winner_str}')
+    display_prompt(f'You chose {p1_choice.capitalize()}, ' \
+                 + f'Computer chose {p2_choice.capitalize()}. {winner_str}')
 
 def get_user_choice():
     display_prompt(f'Choose one: {", ".join(FORMATTED_CHOICE_STRS)}')
     while True:
         user_choice = input().casefold()
         if user_choice in VALID_CHOICES.keys():
-            return VALID_CHOICES[user_choice].capitalize()
+            return VALID_CHOICES[user_choice]
         display_prompt('Invalid input. You can only choose ' \
                     + f'from: {", ".join(FORMATTED_CHOICE_STRS)}')
 
 def get_computer_choice():
     computer_choice = random.choice(CHOICES)
-    return computer_choice.capitalize()
+    return computer_choice
 
 def get_continue():
     display_prompt(f"Would you like to play again, {Y}/{N}?")
@@ -101,3 +105,10 @@ if __name__ == "__main__":
 # condition to be `while keep_going`, then adjust the val of keep_going based
 # on user input inside the loop. once the loop condition falsy, i.e. when the
 # val of keep_going set to False (assuming bool conversion), loop stops running
+
+# lizard spock:
+# rock beats scissor & lizard
+# paper beats rock & spock
+# scissor beats paper & lizard
+# lizard beats paper & spock
+# spock beats rock & scissor
