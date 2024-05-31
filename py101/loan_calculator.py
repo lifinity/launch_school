@@ -89,14 +89,15 @@ def calc_payment(loan_amount, monthly_percent, loan_duration_months):
 def loan_calculator():
     while True:
         display_intro()
-
         loan_amount = get_loan_amount()
+
         if loan_amount > 0:
             annual_percent = get_annual_percent()
             monthly_percent = calc_monthly_percent(annual_percent)
 
             loan_duration_years = get_loan_duration()
             loan_duration_months = calc_duration_months(loan_duration_years)
+
             if monthly_percent > 0:
                 loan_payment = calc_payment(loan_amount, monthly_percent,
                                             loan_duration_months)
