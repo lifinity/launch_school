@@ -94,6 +94,7 @@ def loan_calculator():
         if loan_amount > 0:
             annual_percent = get_annual_percent()
             monthly_percent = calc_monthly_percent(annual_percent)
+
             loan_duration_years = get_loan_duration()
             loan_duration_months = calc_duration_months(loan_duration_years)
             if monthly_percent > 0:
