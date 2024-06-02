@@ -29,9 +29,7 @@ WIN_CONDITIONS = {
                   SPOCK: [ROCK, SCISSORS],
                  }
 
-Y = 'y'
-N = 'n'
-VALID_CONTINUE_OPTIONS = [Y, N]
+VALID_CONTINUE_OPTIONS = ['y', 'yes', 'no', 'n']
 
 WON = 'w'
 LOST = 'l'
@@ -103,12 +101,12 @@ def get_computer_choice():
     return computer_choice
 
 def get_continue():
-    display_prefix(f"Would you like to play another match, {Y}/{N}?")
+    display_prefix("Would you like to play another match, y/n?")
     while True:
         keep_going = input().casefold()
-        if keep_going[0] in VALID_CONTINUE_OPTIONS:
-            return bool(keep_going[0] == Y)
-        display_prefix(f"Please answer '{Y}' or '{N}'.")
+        if keep_going in VALID_CONTINUE_OPTIONS:
+            return bool(keep_going in VALID_CONTINUE_OPTIONS[:2])
+        display_prefix("Please answer 'yes'/'y' or 'no'/'n'.")
 
 # match history functions
 def retrieve_num_wins(player_key):
