@@ -12,14 +12,11 @@ SPOCK = 'spock'
 CHOICES = [ROCK, PAPER, SCISSORS, LIZARD, SPOCK]
 NUM_CHOICES = [str(num) for num in range(1, len(CHOICES)+1)]
 CHAR_CHOICES = [(choice[0] if choice[0] != 's'
-                 else choice[:2]) for choice in CHOICES]
+                else choice[:2]) for choice in CHOICES]
 
 VALID_CHOICES = dict(zip(CHOICES, CHOICES)) \
               | dict(zip(NUM_CHOICES, CHOICES)) \
               | dict(zip(CHAR_CHOICES, CHOICES)) \
-
-FORMATTED_CHOICE_STRS = [f'{num}) {choice.capitalize()}' for num, choice \
-                        in zip(NUM_CHOICES, CHOICES)]
 
 WIN_CONDITIONS = {
                   ROCK: [SCISSORS, LIZARD],
@@ -44,21 +41,28 @@ MATCH_HISTORY = {
                 PLAYER1: [],
                 PLAYER2: [],
                 # 'p1': ['rock_w_1', 'scissors_l_1', ...]
-              }
+                }
 
 # display/print functions
 def display_prefix(msg, prefix='==>'):
     print(f'{prefix} {msg}')
 
 def print_separator():
-    print("------------------------------",
-          "------------------------------", sep='')
+    print("-" * 60, sep='')
 
 def display_game_intro():
     system('clear')
     display_prefix("Rock Paper Scissors Lizard Spock " \
                 + f"(Best of {NUM_MATCH_ROUNDS})")
     print_separator()
+    print_rules()
+    print_separator()
+
+def print_rules():
+    display_prefix("Game Rules", '>>')
+    for idx, (key, val) in enumerate(WIN_CONDITIONS.items()):
+        print(f'{idx+1}) {key.capitalize()} beats ' \
+            + f'{" & ".join([choice.capitalize() for choice in val])}')
 
 def display_round_intro(round_num):
     display_prefix(f"Round {round_num}; {generate_score_str()}", '-->')
@@ -88,13 +92,15 @@ def generate_score_str():
 
 # user input functions
 def get_user_choice():
-    display_prefix(f'Choose one: {", ".join(FORMATTED_CHOICE_STRS)}')
+    choice_strs = [f'{num}) {choice.capitalize()}' \
+                  for num, choice in zip(NUM_CHOICES, CHOICES)]
+    display_prefix(f'Choose one: {", ".join(choice_strs)}')
     while True:
         user_choice = input().casefold()
         if user_choice in VALID_CHOICES.keys():
             return VALID_CHOICES[user_choice]
         display_prefix('Invalid input. You can only choose ' \
-                    + f'from: {", ".join(FORMATTED_CHOICE_STRS)}')
+                    + f'from: {", ".join(choice_strs)}')
 
 def get_computer_choice():
     computer_choice = random.choice(CHOICES)
@@ -167,10 +173,8 @@ def rock_paper_scissors():
         display_game_intro()
 
         round_num = 1
-        while round_num <= NUM_MATCH_ROUNDS:
+        while round_num <= NUM_MATCH_ROUNDS and not calc_match_over():
             play_round(round_num)
-            if calc_match_over():
-                break
             round_num += 1
 
         display_match_results(calc_match_winner())
