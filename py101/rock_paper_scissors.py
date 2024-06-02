@@ -1,4 +1,5 @@
 import random
+from math import ceil
 from os import system
 
 # constants
@@ -24,40 +25,77 @@ WIN_CONDITIONS = {
                   ROCK: [SCISSORS, LIZARD],
                   PAPER: [ROCK, SPOCK],
                   SCISSORS: [PAPER, LIZARD],
-                  SPOCK: [ROCK, SCISSORS]
+                  LIZARD: [PAPER, SPOCK],
+                  SPOCK: [ROCK, SCISSORS],
                  }
 
 Y = 'y'
 N = 'n'
 VALID_CONTINUE_OPTIONS = [Y, N]
 
-# function definitions
-def display_prompt(msg):
-    print(f'==> {msg}')
+WON = 'w'
+LOST = 'l'
+TIE = 't'
 
-def display_intro():
-    system('clear')
-    display_prompt("Rock Paper Scissors Game")
+PLAYER1 = 'p1'
+PLAYER2 = 'p2'
+DELIMITER = '_'
+
+NUM_MATCH_ROUNDS = 5
+MATCH_HISTORY = {
+                PLAYER1: [],
+                PLAYER2: [],
+                # 'p1': ['rock_w_1', 'scissors_l_1', ...]
+              }
+
+# display/print functions
+def display_prefix(msg, prefix='==>'):
+    print(f'{prefix} {msg}')
+
+def print_separator():
     print("------------------------------",
           "------------------------------", sep='')
 
-def display_winner(p1_choice, p2_choice):
-    if p1_choice == p2_choice:
-        winner_str = "It's a tie."
-    elif p2_choice in WIN_CONDITIONS[p1_choice]:
-        winner_str = "You win!"
-    else:
-        winner_str = "Computer wins..."
-    display_prompt(f'You chose {p1_choice.capitalize()}, ' \
-                 + f'Computer chose {p2_choice.capitalize()}. {winner_str}')
+def display_game_intro():
+    system('clear')
+    display_prefix("Rock Paper Scissors Lizard Spock " \
+                + f"(Best of {NUM_MATCH_ROUNDS})")
+    print_separator()
 
+def display_round_intro(round_num):
+    display_prefix(f"Round {round_num}; {generate_score_str()}", '-->')
+
+def print_round_results(p1_choice, p2_choice, outcome):
+    print(f'You chose {p1_choice.capitalize()},',
+          f'Computer chose {p2_choice.capitalize()}.',
+          generate_outcome_str(outcome))
+    print_separator()
+
+def display_match_results(outcome):
+    display_prefix(f'MATCH RESULTS: {generate_score_str()}. ' \
+                 + f'{generate_outcome_str(outcome)}', '!!!')
+
+# string mapping helper functions
+def generate_outcome_str(outcome):
+    if outcome == WON:
+        return "You win!"
+    if outcome == LOST:
+        return "Computer wins..."
+    return "It's a tie."
+
+def generate_score_str():
+    p1_wins = retrieve_num_wins(PLAYER1)
+    p2_wins = retrieve_num_wins(PLAYER2)
+    return f'You: {p1_wins} versus Computer: {p2_wins}'
+
+# user input functions
 def get_user_choice():
-    display_prompt(f'Choose one: {", ".join(FORMATTED_CHOICE_STRS)}')
+    display_prefix(f'Choose one: {", ".join(FORMATTED_CHOICE_STRS)}')
     while True:
         user_choice = input().casefold()
         if user_choice in VALID_CHOICES.keys():
             return VALID_CHOICES[user_choice]
-        display_prompt('Invalid input. You can only choose ' \
+        display_prefix('Invalid input. You can only choose ' \
                     + f'from: {", ".join(FORMATTED_CHOICE_STRS)}')
 
 def get_computer_choice():
@@ -65,20 +103,80 @@ def get_computer_choice():
     return computer_choice
 
 def get_continue():
-    display_prompt(f"Would you like to play again, {Y}/{N}?")
+    display_prefix(f"Would you like to play another match, {Y}/{N}?")
     while True:
         keep_going = input().casefold()
         if keep_going[0] in VALID_CONTINUE_OPTIONS:
             return bool(keep_going[0] == Y)
-        display_prompt(f"Please answer '{Y}' or '{N}'.")
+        display_prefix(f"Please answer '{Y}' or '{N}'.")
+
+# match history functions
+def retrieve_num_wins(player_key):
+    if len(MATCH_HISTORY[player_key]) < 1:
+        return 0
+    return MATCH_HISTORY[player_key][-1].split(DELIMITER)[-1]
+
+def update_match_history(player_key, player_choice, outcome):
+    num_wins = int(retrieve_num_wins(player_key))
+    if outcome == WON:
+        num_wins += 1
+    round_record = f'{player_choice}{DELIMITER}{outcome}{DELIMITER}{num_wins}'
+    MATCH_HISTORY[player_key].append(round_record)
+
+def reset_match_history():
+    for player_record in MATCH_HISTORY.values():
+        player_record.clear()
+
+# calculate game state functions
+def calc_round_winner(p1_choice, p2_choice):
+    if p1_choice == p2_choice:
+        return (TIE, TIE)
+    if p2_choice in WIN_CONDITIONS[p1_choice]:
+        return (WON, LOST)
+    return (LOST, WON)
+
+def calc_match_winner():
+    p1_score = retrieve_num_wins(PLAYER1)
+    p2_score = retrieve_num_wins(PLAYER2)
+    if p1_score == p2_score:
+        return TIE
+    if p1_score > p2_score:
+        return WON
+    return LOST
+
+def calc_match_over():
+    p1_score = int(retrieve_num_wins(PLAYER1))
+    p2_score = int(retrieve_num_wins(PLAYER2))
+    halfway_point = ceil(NUM_MATCH_ROUNDS / 2)
+    end_early_point = halfway_point if halfway_point % 2 else halfway_point + 1
+    return bool(p1_score >= end_early_point
+             or p2_score >= end_early_point)
+
+# subroutine for playing one round of the game
+def play_round(round_num):
+    display_round_intro(round_num)
+    user_choice = get_user_choice()
+    computer_choice = get_computer_choice()
+
+    p1_outcome, p2_outcome = calc_round_winner(user_choice, computer_choice)
+    update_match_history(PLAYER1, user_choice, p1_outcome)
+    update_match_history(PLAYER2, computer_choice, p2_outcome)
+    print_round_results(user_choice, computer_choice, p1_outcome)
 
 # main program body
 def rock_paper_scissors():
     while True:
-        display_intro()
-        user_choice = get_user_choice()
-        computer_choice = get_computer_choice()
-        display_winner(user_choice, computer_choice)
+        display_game_intro()
+
+        round_num = 1
+        while round_num <= NUM_MATCH_ROUNDS:
+            play_round(round_num)
+            if calc_match_over():
+                break
+            round_num += 1
+
+        display_match_results(calc_match_winner())
+        reset_match_history()
 
         if not get_continue():
             break
@@ -112,3 +210,8 @@ if __name__ == "__main__":
 # scissor beats paper & lizard
 # lizard beats paper & spock
 # spock beats rock & scissor
+
+# best of 5:
+# match history dictionary recording moves, round outcome, player win #
+# loop & keep playing rounds until someone has 3 wins; update dict as you go
+# print match results, clear dict & ask user if they want to play another match
