@@ -1,8 +1,0 @@
-# is empty or blank?
-def is_empty_or_blank(str):
-    # return not str.strip(' ')
-    return not str or str.isspace()
-
-print(is_empty_or_blank('mars'))  # False
-print(is_empty_or_blank('  '))    # True
-print(is_empty_or_blank(''))      # True
