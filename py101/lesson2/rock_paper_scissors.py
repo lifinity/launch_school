@@ -37,11 +37,6 @@ PLAYER2 = 'p2'
 DELIMITER = '_'
 
 NUM_MATCH_ROUNDS = 5
-MATCH_HISTORY = {
-                PLAYER1: [],
-                PLAYER2: [],
-                # 'p1': ['rock_w_1', 'scissors_l_1', ...]
-                }
 
 # display/print functions
 def display_prefix(msg, prefix='==>'):
@@ -64,8 +59,9 @@ def print_rules():
         print(f'{idx+1}) {key.capitalize()} beats ' \
             + f'{" & ".join([choice.capitalize() for choice in val])}')
 
-def display_round_intro(round_num):
-    display_prefix(f"Round {round_num}; {generate_score_str()}", '-->')
+def display_round_intro(round_num, match_history):
+    display_prefix(f"Round {round_num}; " \
+                 + f"{generate_score_str(match_history)}", '-->')
 
 def print_round_results(p1_choice, p2_choice, outcome):
     print(f'You chose {p1_choice.capitalize()},',
@@ -73,8 +69,9 @@ def print_round_results(p1_choice, p2_choice, outcome):
           generate_outcome_str(outcome))
     print_separator()
 
-def display_match_results(outcome):
-    display_prefix(f'MATCH RESULTS: {generate_score_str()}. ' \
+def display_match_results(match_history):
+    outcome = calc_match_winner(match_history)
+    display_prefix(f'MATCH RESULTS: {generate_score_str(match_history)}. ' \
                  + f'{generate_outcome_str(outcome)}', '!!!')
 
 # string mapping helper functions
@@ -85,9 +82,9 @@ def generate_outcome_str(outcome):
         return "Computer wins..."
     return "It's a tie."
 
-def generate_score_str():
-    p1_wins = retrieve_num_wins(PLAYER1)
-    p2_wins = retrieve_num_wins(PLAYER2)
+def generate_score_str(match_history):
+    p1_wins = retrieve_num_wins(PLAYER1, match_history)
+    p2_wins = retrieve_num_wins(PLAYER2, match_history)
     return f'You: {p1_wins} versus Computer: {p2_wins}'
 
 # user input functions
@@ -115,20 +112,20 @@ def get_continue():
         display_prefix("Please answer 'yes'/'y' or 'no'/'n'.")
 
 # match history functions
-def retrieve_num_wins(player_key):
-    if len(MATCH_HISTORY[player_key]) < 1:
+def retrieve_num_wins(player_key, match_history):
+    if len(match_history[player_key]) < 1:
         return 0
-    return MATCH_HISTORY[player_key][-1].split(DELIMITER)[-1]
+    return match_history[player_key][-1].split(DELIMITER)[-1]
 
-def update_match_history(player_key, player_choice, outcome):
-    num_wins = int(retrieve_num_wins(player_key))
+def update_match_history(player_key, player_choice, outcome, match_history):
+    num_wins = int(retrieve_num_wins(player_key, match_history))
     if outcome == WON:
         num_wins += 1
     round_record = f'{player_choice}{DELIMITER}{outcome}{DELIMITER}{num_wins}'
-    MATCH_HISTORY[player_key].append(round_record)
+    match_history[player_key].append(round_record)
 
-def reset_match_history():
-    for player_record in MATCH_HISTORY.values():
+def reset_match_history(match_history):
+    for player_record in match_history.values():
         player_record.clear()
 
 # calculate game state functions
@@ -139,32 +136,32 @@ def calc_round_winner(p1_choice, p2_choice):
         return (WON, LOST)
     return (LOST, WON)
 
-def calc_match_winner():
-    p1_score = retrieve_num_wins(PLAYER1)
-    p2_score = retrieve_num_wins(PLAYER2)
+def calc_match_winner(match_history):
+    p1_score = retrieve_num_wins(PLAYER1, match_history)
+    p2_score = retrieve_num_wins(PLAYER2, match_history)
     if p1_score == p2_score:
         return TIE
     if p1_score > p2_score:
         return WON
     return LOST
 
-def calc_match_over():
-    p1_score = int(retrieve_num_wins(PLAYER1))
-    p2_score = int(retrieve_num_wins(PLAYER2))
+def calc_match_over(match_history):
+    p1_score = int(retrieve_num_wins(PLAYER1, match_history))
+    p2_score = int(retrieve_num_wins(PLAYER2, match_history))
     halfway_point = ceil(NUM_MATCH_ROUNDS / 2)
     end_early_point = halfway_point if halfway_point % 2 else halfway_point + 1
     return bool(p1_score >= end_early_point
              or p2_score >= end_early_point)
 
 # subroutine for playing one round of the game
-def play_round(round_num):
-    display_round_intro(round_num)
+def play_round(round_num, match_history):
+    display_round_intro(round_num, match_history)
     user_choice = get_user_choice()
     computer_choice = get_computer_choice()
 
     p1_outcome, p2_outcome = calc_round_winner(user_choice, computer_choice)
-    update_match_history(PLAYER1, user_choice, p1_outcome)
-    update_match_history(PLAYER2, computer_choice, p2_outcome)
+    update_match_history(PLAYER1, user_choice, p1_outcome, match_history)
+    update_match_history(PLAYER2, computer_choice, p2_outcome, match_history)
     print_round_results(user_choice, computer_choice, p1_outcome)
 
 # main program body
@@ -173,12 +170,15 @@ def rock_paper_scissors():
         display_game_intro()
 
         round_num = 1
-        while round_num <= NUM_MATCH_ROUNDS and not calc_match_over():
-            play_round(round_num)
+        match_history = { PLAYER1: [], PLAYER2: [] }
+        # e.g. 'p1': ['rock_w_1', 'scissors_l_1', ...]
+        while round_num <= NUM_MATCH_ROUNDS and \
+              not calc_match_over(match_history):
+            play_round(round_num, match_history)
             round_num += 1
 
-        display_match_results(calc_match_winner())
-        reset_match_history()
+        display_match_results(match_history)
+        reset_match_history(match_history)
 
         if not get_continue():
             break
