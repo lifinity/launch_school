@@ -1,7 +1,7 @@
 # is empty or blank?
-def is_empty_or_blank(str):
-    # return not str.strip(' ')
-    return not str or str.isspace()
+def is_empty_or_blank(str_):
+    # return not str_.strip(' ')
+    return not str_ or str_.isspace()
 
 print(is_empty_or_blank('mars'))  # False
 print(is_empty_or_blank('  '))    # True

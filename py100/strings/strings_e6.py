@@ -1,8 +1,8 @@
 # is empty?
-def is_empty(str):
-    # return str == ""
-    # return len(str) < 1
-    return not str
+def is_empty(str_):
+    # return str_ == ""
+    # return len(str_) < 1
+    return not str_
 
 print(is_empty('mars'))  # False
 print(is_empty('  '))    # False

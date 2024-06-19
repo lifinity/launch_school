@@ -3,9 +3,9 @@
 # 1) returns a false condition when the input isn't an ip
 # 2) handles the case when the input str has more/less than 4 components 
 # e.g. 4.5.5 or 1.2.3.4.5 should both be invalid
-def is_an_ip_number(str):
-    if str.isdigit():
-        number = int(str)
+def is_an_ip_number(str_):
+    if str_.isdigit():
+        number = int(str_)
         return 0 <= number <= 255
     return False
 
